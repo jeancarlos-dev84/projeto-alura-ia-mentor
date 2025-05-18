@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentor de Estudos - Planejamento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-title">
+            <span class="mentor-logo">Mentor</span>
+            <span class="mentor-subtitle">Monte seu plano de estudo personalizado com o Google Gemini.</span>
+        </div>
+        {% if demo_mode %}
+        <span class="demo-warning" style="margin-right:50px;">
+            Modo Demonstração: integrações externas simuladas.
+        </span>
+        {% endif %}
+    </div>
+    <div class="main-content">
+        <div class="painel">
+            <!-- Painel da Esquerda: Planejamento -->
+            <div class="left-panel">
+                <h2>Planejamento</h2>
+                <form method="POST" autocomplete="off">
+                    <div class="form-group">
+                        <label for="tema">Objetivo</label>
+                        <input type="text" id="tema" name="tema" placeholder="Ex: aprender filosofia" required value="{{ request.form.tema or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="prazo">Prazo</label>
+                        <input type="text" id="prazo" name="prazo" placeholder="Ex: 30 dias" required value="{{ request.form.prazo or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="disponibilidade">Disponibilidade</label>
+                        <input type="text" id="disponibilidade" name="disponibilidade" placeholder="Ex: 1 hora por dia" required value="{{ request.form.disponibilidade or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="nivel">Nível</label>
+                        <input type="text" id="nivel" name="nivel" placeholder="iniciante, intermediário, avançado" value="{{ request.form.nivel or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="preferencias">Preferências</label>
+                        <input type="text" id="preferencias" name="preferencias" placeholder="opcional" value="{{ request.form.preferencias or '' }}">
+                    </div>
+                    <button type="submit" class="btn-google" style="margin:10px 0 0 0;">Gerar Plano</button>
+                </form>
+                <span class="notice-calendar">
+                    O resumo ficará salvo no seu Google Calendário.<br>
+                    {% if demo_mode %}
+                    <span style="color:#23d196;">Modo Demonstração:</span> integrações externas simuladas.
+                    {% endif %}
+                </span>
+                <div id="resumo-planejamento" style="margin-top:16px;">
+                    {% if planejamento_resumo %}
+                        {{ planejamento_resumo }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Painel da Direita: Resultados dos Agentes -->
+            <div class="right-panel">
+                <!-- Conteúdo Gerado -->
+                <div class="card-section conteudo-gerado">
+                    <h3>Conteúdo Gerado</h3>
+                    <div>
+                        {% if conteudo %}
+                            {{ conteudo }}
+                        {% else %}
+                            <span style="color:#adb6c2;">O conteúdo gerado será exibido aqui após gerar o plano.</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Flash Cards -->
+                <div class="card-section">
+                    <h3>Flash Cards</h3>
+                    <div class="flashcards-area">
+                        {% if flashcards %}
+                            {% for card in flashcards %}
+                            <div class="flashcard">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">{{ card.pergunta }}</div>
+                                    <div class="flashcard-back">{{ card.resposta }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <span style="color:#adb6c2;">Os flashcards aparecerão aqui após gerar o plano.</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Vídeos Recomendados -->
+                <div class="card-section">
+                    <h3>Vídeos Recomendados</h3>
+                    <div class="videos-list">
+                        {% if videos %}
+                            {% for video in videos %}
+                            <a class="video-item" href="{{ video.url }}" target="_blank">
+                                <span><strong>{{ video.titulo }}</strong> — {{ video.descricao }}</span>
+                            </a>
+                            {% endfor %}
+                        {% else %}
+                            <span style="color:#adb6c2;">Os vídeos sugeridos aparecerão aqui após gerar o plano.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
+</body>
+</html>
+

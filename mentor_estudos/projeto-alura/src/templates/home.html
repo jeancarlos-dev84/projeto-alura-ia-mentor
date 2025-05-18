@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="painel">
+    <div class="left-panel">
+        <h2>Planejamento</h2>
+        <form action="{{ url_for('estudar') }}" method="post">
+            <div class="form-group">
+                <label for="tema">Objetivo</label>
+                <input type="text" name="tema" id="tema" required>
+            </div>
+            <div class="form-group">
+                <label for="prazo">Prazo</label>
+                <input type="text" name="prazo" id="prazo" required placeholder="ex: 30 dias">
+            </div>
+            <div class="form-group">
+                <label for="horas">Disponibilidade</label>
+                <input type="text" name="horas" id="horas" required placeholder="ex: 2h/dia, 3x/semana">
+            </div>
+            <div class="form-group">
+                <label for="nivel">Nível</label>
+                <input type="text" name="nivel" id="nivel" required placeholder="iniciante, intermediário, avançado">
+            </div>
+            <div class="form-group">
+                <label for="preferencias">Preferências</label>
+                <input type="text" name="preferencias" id="preferencias" placeholder="opcional">
+            </div>
+            <button type="submit" class="btn-google">Gerar Plano</button>
+        </form>
+        <div class="notice-calendar">
+            O resumo ficará salvo no seu Google Calendário. <br>
+            <b>Modo Demonstração:</b> integrações externas simuladas.
+        </div>
+        <div id="resumo-planejamento"></div>
+    </div>
+    <div class="right-panel">
+        <div class="card-section">
+            <h3>Conteúdo Gerado</h3>
+            <div id="conteudo-gerado"></div>
+        </div>
+        <div class="card-section">
+            <h3>Flash Cards</h3>
+            <div class="flashcards-area" id="flashcards-area"></div>
+        </div>
+        <div class="card-section">
+            <h3>Vídeos Recomendados</h3>
+            <div class="videos-list" id="videos-list"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

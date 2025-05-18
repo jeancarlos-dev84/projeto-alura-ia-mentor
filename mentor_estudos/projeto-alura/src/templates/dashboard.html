@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="mb-3">Seu Plano de Estudos</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <h4>Cronograma</h4>
+      {% for sessao in cronograma %}
+        <div class="card-custom mb-2">
+          <strong>{{ sessao.tema }}</strong><br>
+          {{ sessao.inicio|default('') }} &rarr; {{ sessao.fim|default('') }}<br>
+          <small>{{ sessao.descricao|default('') }}</small>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-4">
+      <h4>Conteúdo</h4>
+      <div class="card-custom">
+        {{ conteudo|safe }}
+      </div>
+      <h4 class="mt-3">Flashcards</h4>
+      {% for card in flashcards %}
+        <div class="flashcard" onclick="this.classList.toggle('revelar')">
+          <strong>Pergunta:</strong> {{ card.pergunta }}<br>
+          <span style="display:none;" class="resposta"><strong>Resposta:</strong> {{ card.resposta }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-4">
+      <h4>Vídeos Recomendados</h4>
+      {% for video in videos %}
+        <div class="video-card">
+          <a href="{{ video.url }}" target="_blank">
+            <strong>{{ video.titulo }}</strong>
+          </a><br>
+          <span>{{ video.descricao }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    // Revela resposta ao clicar no flashcard
+    document.querySelectorAll('.flashcard').forEach(card => {
+      card.addEventListener('click', function() {
+        const resposta = this.querySelector('.resposta');
+        if(resposta) resposta.style.display = (resposta.style.display === 'none') ? 'block' : 'none';
+      });
+    });
+  </script>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentor de Estudos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-title">
+            <span class="mentor-logo">Mentor</span>
+            <span class="mentor-subtitle">
+                Monte seu plano de estudo personalizado com o Google Gemini.
+            </span>
+        </div>
+        {% if demo_mode %}
+        <div class="demo-warning">
+            <strong>Modo Demonstração:</strong> integrações externas simuladas.
+        </div>
+        {% endif %}
+    </div>
+    <div class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
+</body>
+</html>
